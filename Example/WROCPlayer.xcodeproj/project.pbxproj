@@ -35,17 +35,11 @@
 		6003F5A5195388D20070C39A /* WRViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WRViewController.h; sourceTree = "<group>"; };
 		6003F5A6195388D20070C39A /* WRViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WRViewController.m; sourceTree = "<group>"; };
 		6003F5A8195388D20070C39A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		6003F5B7195388D20070C39A /* Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Tests-Info.plist"; sourceTree = "<group>"; };
-		6003F5B9195388D20070C39A /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		6003F5BB195388D20070C39A /* Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Tests.m; sourceTree = "<group>"; };
-		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		71719F9E1E33DC2100824A3D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		848299FF574C2FA7C785A6F6 /* WROCPlayer.podspec */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = WROCPlayer.podspec; path = ../WROCPlayer.podspec; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = Main.storyboard; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		9BCAB2D984AFC5B23F84D34B /* Pods-WROCPlayer_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WROCPlayer_Example.debug.xcconfig"; path = "Target Support Files/Pods-WROCPlayer_Example/Pods-WROCPlayer_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B739A6D65A65AAAEE141AE9D /* Pods_WROCPlayer_Example.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WROCPlayer_Example.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2BB886864D2E740BD0E9874 /* Pods-WROCPlayer_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WROCPlayer_Tests.debug.xcconfig"; path = "Target Support Files/Pods-WROCPlayer_Tests/Pods-WROCPlayer_Tests.debug.xcconfig"; sourceTree = "<group>"; };
-		E52226E91D32F6375D215129 /* Pods-WROCPlayer_Tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WROCPlayer_Tests.release.xcconfig"; path = "Target Support Files/Pods-WROCPlayer_Tests/Pods-WROCPlayer_Tests.release.xcconfig"; sourceTree = "<group>"; };
 		F45F41F068F06AFC07E2ECCA /* LICENSE */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; name = LICENSE; path = ../LICENSE; sourceTree = "<group>"; };
 		F55EF5C8BB811440BC42F853 /* Pods-WROCPlayer_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WROCPlayer_Example.release.xcconfig"; path = "Target Support Files/Pods-WROCPlayer_Example/Pods-WROCPlayer_Example.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -70,7 +64,6 @@
 			children = (
 				60FF7A9C1954A5C5007DD14C /* Podspec Metadata */,
 				6003F593195388D20070C39A /* Example for WROCPlayer */,
-				6003F5B5195388D20070C39A /* Tests */,
 				6003F58C195388D20070C39A /* Frameworks */,
 				6003F58B195388D20070C39A /* Products */,
 				8F40348CFF621073A847F5D5 /* Pods */,
@@ -123,25 +116,6 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		6003F5B5195388D20070C39A /* Tests */ = {
-			isa = PBXGroup;
-			children = (
-				6003F5BB195388D20070C39A /* Tests.m */,
-				6003F5B6195388D20070C39A /* Supporting Files */,
-			);
-			path = Tests;
-			sourceTree = "<group>";
-		};
-		6003F5B6195388D20070C39A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				6003F5B7195388D20070C39A /* Tests-Info.plist */,
-				6003F5B8195388D20070C39A /* InfoPlist.strings */,
-				606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
 		60FF7A9C1954A5C5007DD14C /* Podspec Metadata */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,8 +131,6 @@
 			children = (
 				9BCAB2D984AFC5B23F84D34B /* Pods-WROCPlayer_Example.debug.xcconfig */,
 				F55EF5C8BB811440BC42F853 /* Pods-WROCPlayer_Example.release.xcconfig */,
-				E2BB886864D2E740BD0E9874 /* Pods-WROCPlayer_Tests.debug.xcconfig */,
-				E52226E91D32F6375D215129 /* Pods-WROCPlayer_Tests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -289,14 +261,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				6003F597195388D20070C39A /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		6003F5B8195388D20070C39A /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				6003F5B9195388D20070C39A /* en */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

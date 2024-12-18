@@ -14,6 +14,11 @@ NS_ASSUME_NONNULL_BEGIN
 + (UIImage * _Nullable)WR_SystemImageNamed:(NSString *)imageName;
 + (UIImage * _Nullable)WR_SystemImageNamed:(NSString *)imageName withWeight:(UIImageSymbolWeight)weight;
 + (UIImage * _Nullable)WR_SystemImageNamed:(NSString *)imageName withWeight:(UIImageSymbolWeight)weight withColor:(UIColor * _Nullable)color;
++ (UIImage *)WR_GradientImageWithColors:(NSArray *)colors andSize:(CGSize)size andLocations:(NSArray *)locations andStart:(CGPoint)start andEnd:(CGPoint)end;
+
+- (UIImage * _Nullable)wr_conversionColor:(UIColor * _Nullable)color;
+
+- (BOOL)wr_isPureColor;
 
 @end
 

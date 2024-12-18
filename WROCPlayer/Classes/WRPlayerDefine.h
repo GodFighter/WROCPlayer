@@ -11,6 +11,9 @@
 
 @class WRPlayer;
 
+/**
+ 播放器状态
+ */
 typedef enum : NSUInteger {
     WRPlayerStatus_None    = 0,
     WRPlayerStatus_Loading = 1,
@@ -22,6 +25,21 @@ typedef enum : NSUInteger {
     WRPlayerStatus_Failed  = 7,
 } WRPlayerStatus;
 
+/**
+ 播放状态
+ */
+typedef enum : NSUInteger {
+    WRPlaybackStatus_Playing = 0,
+    WRPlaybackStatus_Pause   = 1,
+} WRPlaybackStatus;
+
+
+typedef enum : NSUInteger {
+    WRPlayerOperation_Back = 0,
+    WRPlayerOperation_Play,
+    WRPlayerOperation_FullScreen,
+    WRPlayerOperation_Share,
+} WRPlayerOperation;
 
 @protocol WRPlayerDelegate <NSObject>
 

@@ -53,11 +53,11 @@
 
 //MARK: -
 - (void)playerPlayTimeDidChanged:(WRPlayer *)player {
-    NSLog(@"%1.0f----%1.0f", player.currentTime, player.duration);
+//    NSLog(@"%1.0f----%1.0f", player.currentTime, player.duration);
 }
 
 - (void)playerStatusDidChanged:(WRPlayer *)player {
-    NSLog(@"player status = %ld", player.status);
+//    NSLog(@"player status = %ld", player.status);
 
     switch (player.status) {
         case WRPlayerStatus_Ready:

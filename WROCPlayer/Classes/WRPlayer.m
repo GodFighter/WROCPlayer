@@ -11,6 +11,8 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 #import "WRPlayerView.h"
+#import "AVAsset+WRPlayer.h"
+#import "UIImage+WRPlayer.h"
 
 #define PLAYER_WEAKSELF __weak typeof(self) playerWeakSelf = self;
 
@@ -39,7 +41,8 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        self.playerView = [WRPlayerView new];
+        _status = WRPlayerStatus_None;
+        _playbackStatus = WRPlaybackStatus_Pause;
     }
     return self;
 }
@@ -181,9 +184,19 @@
         return;
     }
     _status = status;
+    [self.playerView setStatus:status];
     if ([self.delegate respondsToSelector:@selector(playerStatusDidChanged:)]) {
         [self.delegate playerStatusDidChanged:self];
     }
+}
+
+- (void)setPlaybackStatus:(WRPlaybackStatus)playbackStatus {
+    if (_playbackStatus == playbackStatus) {
+        return;
+    }
+    _playbackStatus = playbackStatus;
+    [self.playerView setPlaybackStatus:playbackStatus];
+
 }
 
 //MARK: - Observer
@@ -198,47 +211,51 @@
 - (void)observePlayerItem:(AVPlayerItem *)item forKeyPath:(NSString *)keyPath change:(NSDictionary<NSKeyValueChangeKey,id> *)change {
     if ([keyPath isEqualToString:@"status"]) {
         AVPlayerStatus status = [[change valueForKey:@"new"] intValue];
-        WRPlayerStatus playerStatus = WRPlayerStatus_None;
         NSError *error = nil;
         
         switch (status) {
             case AVPlayerStatusUnknown:
+                self.status = WRPlayerStatus_None;
+                break;
+            case AVPlayerStatusReadyToPlay:{
+                [self initializeTimeWithItem:item withLoadedAsset:YES];
+                [self.playerView setAsset:item.asset];
+                self.status = WRPlayerStatus_Ready;
+                
+                [item.asset wr_imageWithTime:0 completion:^(UIImage * _Nullable image) {
+                    NSLog(@"%@", image);
+                }];
+                
                 
                 break;
-            case AVPlayerStatusReadyToPlay:
-                [self initializeTimeWithItem:item withLoadedAsset:YES];
-                playerStatus = WRPlayerStatus_Ready;
-                break;
+            }
             case AVPlayerStatusFailed:
-                playerStatus = WRPlayerStatus_Failed;
+                self.status = WRPlayerStatus_Failed;
                 error = item.error;
                 break;
         }
-        self.status = playerStatus;
-
     }
 }
 
 - (void)observePlayer:(AVPlayer *)avPlayer forKeyPath:(NSString *)keyPath change:(NSDictionary<NSKeyValueChangeKey,id> *)change {
-    if ([keyPath isEqualToString:@"rate"]) {
-        CGFloat rate = [[change valueForKey:@"new"] floatValue];
-        self.status = rate == 0 ? WRPlayerStatus_Paused : WRPlayerStatus_Playing;
+    if ([keyPath isEqualToString:@"timeControlStatus"]) {
+        switch (avPlayer.timeControlStatus) {
+            case AVPlayerTimeControlStatusPaused:
+                self.status = WRPlayerStatus_Paused;
+                self.playbackStatus = WRPlaybackStatus_Pause;
+                break;
+            case AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate:{
+                if (self.avPlayer.reasonForWaitingToPlay != AVPlayerWaitingWhileEvaluatingBufferingRateReason) {
+                    self.status = WRPlayerStatus_Loading;
+                }
+                break;
+            }
+            case AVPlayerTimeControlStatusPlaying:
+                self.status = WRPlayerStatus_Playing;
+                self.playbackStatus = WRPlaybackStatus_Playing;
+                break;
+        }
     }
-//    if ([keyPath isEqualToString:@"timeControlStatus"]) {
-//        WRPlayerStatus playerStatus = WRPlayerStatus_None;
-//        switch (avPlayer.timeControlStatus) {
-//            case AVPlayerTimeControlStatusPaused:
-//                playerStatus = WRPlayerStatus_Paused;
-//                break;
-//            case AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate:
-//                playerStatus = WRPlayerStatus_Loading;
-//                break;
-//            case AVPlayerTimeControlStatusPlaying:
-//                playerStatus = WRPlayerStatus_Playing;
-//                break;
-//        }
-//        self.status = playerStatus;
-//    }
 }
 
 //MARK: - AVPlayerItem
@@ -297,5 +314,34 @@
 - (void)removePlayTimeObservers:(AVPlayer *)player {
     
 }
+
+//MARK: - UI
+- (WRPlayerView *)playerView {
+    if (_playerView == nil) {
+        _playerView = [WRPlayerView new];
+        
+        __weak typeof(self) weakSelf = self;
+        _playerView.operationBlock = ^(WRPlayerOperation operation, id  _Nullable var_value) {
+            switch (operation) {
+
+                case WRPlayerOperation_Back:
+                    
+                    break;
+                case WRPlayerOperation_Play: {
+                    weakSelf.playbackStatus == WRPlaybackStatus_Playing ? [weakSelf.avPlayer pause] : [weakSelf.avPlayer play];
+                    break;
+                }
+                case WRPlayerOperation_FullScreen:
+                    
+                    break;
+                case WRPlayerOperation_Share:
+                    
+                    break;
+            }
+        };
+    }
+    return _playerView;
+}
+
 
 @end

@@ -7,16 +7,16 @@
 
 #import "WRPlayerView.h"
 
-#import <AVFoundation/AVPlayerLayer.h>
+#import <AVFoundation/AVFoundation.h>
 
 #import "WRPlayerOperationView.h"
-//#import "UIImage+WRPlayer.h"
 
 //MARK: -
 @interface WRPlayerView ()
 
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) WRPlayerOperationView *operationView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 
 @end
 
@@ -36,6 +36,29 @@
 }
 
 //MARK: - Public
+- (void)setStatus:(WRPlayerStatus)status {
+    switch (status) {
+        case WRPlayerStatus_None:
+        case WRPlayerStatus_Playing:
+        case WRPlayerStatus_Paused:
+        case WRPlayerStatus_End:
+        case WRPlayerStatus_Stop:
+        case WRPlayerStatus_Failed:
+            [self.loadingView stopAnimating];
+            break;
+        case WRPlayerStatus_Ready:
+        case WRPlayerStatus_Loading:
+            [self.loadingView startAnimating];
+            break;
+    }
+    
+    [self.operationView setStatus:status];
+}
+
+- (void)setPlaybackStatus:(WRPlaybackStatus)status {
+    [self.operationView setPlaybackStatus:status];
+}
+
 - (void)destory {
     [self.playerLayer removeFromSuperlayer];
     self.playerLayer = nil;
@@ -59,6 +82,10 @@
     }
 }
 
+- (void)setAsset:(AVAsset *)asset {
+    [self.operationView setAsset:asset];
+}
+
 //MARK: - Set & Get
 - (void)setContainerView:(UIView *)containerView {
     _containerView = containerView;
@@ -72,6 +99,7 @@
 //MARK: - UI
 - (void)addViews {
     [self addSubview:self.operationView];
+    [self addSubview:self.loadingView];
     
     [NSLayoutConstraint activateConstraints:@[
         [self.operationView.leftAnchor constraintEqualToAnchor:self.leftAnchor],
@@ -79,14 +107,36 @@
         [self.operationView.topAnchor constraintEqualToAnchor:self.topAnchor],
         [self.operationView.bottomAnchor constraintEqualToAnchor:self.bottomAnchor],
     ]];
+    
+    [NSLayoutConstraint activateConstraints:@[
+        [self.loadingView.centerYAnchor constraintEqualToAnchor:self.centerYAnchor],
+        [self.loadingView.centerXAnchor constraintEqualToAnchor:self.centerXAnchor],
+    ]];
 }
 
 - (WRPlayerOperationView *)operationView {
     if (_operationView == nil) {
         _operationView = [WRPlayerOperationView new];
         _operationView.translatesAutoresizingMaskIntoConstraints = NO;
+        
+        __weak typeof(self) weakSelf = self;
+        _operationView.operationBlock = ^(WRPlayerOperation operation, id  _Nullable var_value) {
+            if (weakSelf.operationBlock) {
+                weakSelf.operationBlock(operation, var_value);
+            }
+        };
     }
     return _operationView;
+}
+
+- (UIActivityIndicatorView *)loadingView {
+    if (_loadingView == nil) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleMedium];
+        _loadingView.translatesAutoresizingMaskIntoConstraints = NO;
+        _loadingView.color = UIColor.whiteColor;
+        _loadingView.hidesWhenStopped = YES;
+    }
+    return _loadingView;
 }
 
 @end

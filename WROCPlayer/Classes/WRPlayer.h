@@ -14,6 +14,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface WRPlayer : NSObject
 
 @property (nonatomic, assign, readonly) WRPlayerStatus status;
+@property (nonatomic, assign, readonly) WRPlaybackStatus playbackStatus;
+
 @property (nonatomic, weak) id <WRPlayerDelegate> _Nullable delegate;
 
 @property (nonatomic, assign, readonly) NSTimeInterval duration;
